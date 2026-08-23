@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Memory Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">
+        Virtual Memory Simulator
+    </div>
+
+    <div class="main_body">
+        <div class="sidebar">
+            <p class="topics active_topic" id="simulationTopic">Simulation</p>
+            <p class="topics" id="aboutTopic">About</p>
+            <!-- <p class="topics" id="contiguousTopic">Contiguous Allocation</p>
+            <p class="topics" id="nonContiguousTopic">Non Contiguous Allocation</p> -->
+        </div>
+
+        <div class="simulate">
+            <div class="input">
+                <div class="algostr">
+                    <div class="algorithm">
+                        <p class="alg">Algorithm</p>
+                        <select name="algo" id="algo" class="algo">
+                            <option value="fifo">FIFO (First In First Out)</option>
+                            <option value="lru">LRU (Least Recently Used)</option>
+                            <option value="optimal">Optimal</option>
+                        </select>
+                    </div>
+
+                    <div class="rstring">
+                        <p class="rstr">Reference String</p>
+                        <input type="text" id="inpt" placeholder="Example: 7 0 1 2 0 3 4 7" class="referenceString">
+                    </div>
+                </div>
+
+                <div class="proceed">
+                    <div class="frames">
+                        <p class="cntFrame">Number of frames</p>
+                        <input type="number" placeholder="Example: 3" class="frame" id="inpt2">
+                    </div>
+
+                    <div class="buttons">
+                        <button class="simulatebtn">Simulate</button>
+
+                        <button class="reset">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="empty_state" id="emptyState">
+                <p>Run simulation first.</p>
+            </div>
+
+            <div class="results" id="results">
+
+                <div class="memory_row_container">
+
+                    <div class="memory_card">
+
+                        <h2>LOGICAL MEMORY</h2>
+
+                        <div class="logical_memory" id="logicalMemory">
+
+                        </div>
+
+                    </div>
+
+                    <div class="memory_card">
+
+                        <h2>PAGE TABLE</h2>
+
+                        <div class="page_table">
+
+                            <div class="page_table_header">
+                                <div>Page</div>
+                                <div>Frame</div>
+                            </div>
+
+                            <div id="pageTableBody"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="memory_row_container">
+
+                    <div class="memory_card">
+
+                        <h2>PHYSICAL MEMORY</h2>
+
+                        <div class="physical_memory" id="physicalMemory">
+
+                        </div>
+
+                    </div>
+
+                    <div class="memory_card virtual_card">
+
+                        <h2>VIRTUAL MEMORY</h2>
+
+                        <div class="virtual_disk" id="virtual_disk">
+
+                            <div class="disk_top"></div>
+
+                            <div class="disk_body">
+
+                                <div class="disk_grid">
+
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+                                    <div class="disk_block"></div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="disk_bottom"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="simulation_results" id="simulation_results">
+
+                <h2>SIMULATION RESULTS</h2>
+
+                <div class="results_table_container">
+
+                    <table class="results_table">
+
+                        <thead>
+                            <tr id="resultsTableHeader">
+                                <th>Step</th>
+                                <th>Page</th>
+
+                                <th>Page Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="resultsTableBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <div class="statistics" id="statistics">
+
+                <h2>STATISTICS</h2>
+
+                <div class="statistics_container">
+
+                    <div class="stat_card">
+                        <p class="stat_title">NUMBER OF PAGE FAULTS</p>
+                        <p class="stat_value" id="pageFaults">5</p>
+                    </div>
+
+                    <div class="stat_card">
+                        <p class="stat_title">HIT RATIO</p>
+                        <p class="stat_value" id="hitRatio">37.5%</p>
+                    </div>
+
+                    <div class="stat_card">
+                        <p class="stat_title">TOTAL REFERENCES</p>
+                        <p class="stat_value" id="totalReferences">8</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="about_section" id="aboutSection">
+
+            <h1>ABOUT THE PROJECT</h1>
+
+            <p>
+                The <strong>Virtual Memory Simulator</strong> is an interactive educational
+                web application designed to demonstrate the concepts of virtual memory
+                and page replacement in operating systems. The simulator allows users
+                to enter a reference string, specify the number of available physical
+                memory frames, and select a page replacement algorithm such as
+                <strong>FIFO (First In First Out)</strong>,
+                <strong>LRU (Least Recently Used)</strong>, or
+                <strong>Optimal</strong>. It then processes the reference string step
+                by step and visually represents how pages move between virtual memory
+                and physical memory.
+            </p>
+
+            <p>
+                The simulator provides a visual representation of
+                <strong>logical memory, physical memory, the page table, and virtual
+                    memory</strong>, making it easier to understand how pages are
+                mapped to frames and how page faults and page hits occur. It also
+                presents a step-by-step simulation table along with statistics such as
+                the total number of page faults, total references, and hit ratio. The
+                main objective of the project is to bridge the gap between theoretical
+                operating-system concepts and their practical execution through an
+                interactive and easy-to-understand visualization.
+            </p>
+
+            <h1>CONTIGUOUS MEMORY ALLOCATION</h1>
+
+            <p>
+                Contiguous memory allocation is a memory management technique in which a process is allocated a single
+                continuous block of memory. This means that all the memory required by a process is placed in
+                consecutive memory locations. The operating system keeps track of the starting address and the size of
+                the allocated block to determine which memory locations belong to the process. Common techniques such as
+                First Fit, Best Fit, and Worst Fit are used to decide where a process should be placed in available
+                memory.
+            </p>
+
+            <p>
+                The major advantage of contiguous allocation is that it is simple to implement and provides fast access
+                to the allocated memory. However, it can suffer from external fragmentation, where free memory is
+                available but scattered across different locations, making it difficult to allocate a large continuous
+                block. As processes are loaded and removed, these gaps can increase, reducing the efficient utilization
+                of physical memory.
+            </p>
+
+            <h1>NON - CONTIGUOUS MEMORY ALLOCATION</h1>
+
+            <p>
+                Non-contiguous memory allocation allows a process to be divided into smaller parts and stored in
+                different locations of physical memory. Unlike contiguous allocation, the entire process does not need
+                to occupy one continuous block of memory. Paging and segmentation are common techniques used for
+                non-contiguous memory allocation. In paging, a process is divided into fixed-size pages, while physical
+                memory is divided into fixed-size frames. Pages can then be placed into any available frames.
+            </p>
+
+            <p>
+                Non-contiguous allocation improves memory utilization because free spaces in different parts of physical
+                memory can be used instead of requiring one large continuous block. Paging also eliminates external
+                fragmentation, although it can introduce internal fragmentation. A page table is used to maintain the
+                mapping between logical pages and physical frames, allowing the operating system to locate the required
+                page in physical memory.
+            </p>
+
+            <h1>VIRTUAL MEMORY</h1>
+
+            <p>
+                Virtual memory is a memory management technique that allows a system to execute programs even when their
+                complete contents cannot fit into physical RAM at the same time. It provides each process with a logical
+                address space that is larger than the available physical memory. The operating system divides the
+                process into pages and keeps some pages in physical memory while the remaining pages can be stored on
+                secondary storage, such as a disk. When a required page is not currently present in RAM, a page fault
+                occurs and the operating system loads that page into an available frame.
+            </p>
+
+            <p>
+                When all physical memory frames are occupied and a new page needs to be loaded, the operating system
+                must select an existing page to remove. This is handled using page replacement algorithms such as FIFO,
+                LRU, and Optimal. In this simulator, the reference string represents the sequence of pages requested by
+                a process, while the specified number of frames represents the available physical memory. The simulator
+                visualizes the movement of pages between virtual memory and physical memory, updates the page table, and
+                calculates page faults and hit ratio to demonstrate how virtual memory operates.
+            </p>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="owner">
+            Crafted By :- Priyanshu Patel
+
+            <a target="_blank" class="ghlink" href="https://github.com/BugSlayer03"><img class="ghlogo" src="github.png"
+                    alt="GitHub"></a>
+
+            <a target="_blank" class="ldlink" href="https://www.linkedin.com/in/patelpriyanshu03/"><img class="ldlogo"
+                    src="linkedin.png" alt="LinkedIn"></a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
