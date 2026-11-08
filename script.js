@@ -767,7 +767,45 @@ function updateStatistics(
         hitRatio.toFixed(2) + "%";
 }
 
+function validateInputs() {
+    const refInput = document.getElementById("inpt").value.trim();
+    const frameInput = document.getElementById("inpt2").value.trim();
+
+    if (refInput === "") {
+        alert("Please enter a reference string.");
+        return false;
+    }
+
+    const values = refInput.split(/\s+/);
+
+    const referenceString = values.map(Number);
+
+    if (!referenceString.every(num =>
+        Number.isSafeInteger(num) && num >= 0
+    )) {
+        alert("Reference string must contain only non-negative integers.");
+        return false;
+    }
+
+    const frameCount = Number(frameInput);
+
+    if (frameInput === "" ||
+        !Number.isSafeInteger(frameCount) ||
+        frameCount <= 0) {
+        alert("Please enter a valid positive number of frames.");
+        return false;
+    }
+
+    return {
+        referenceString,
+        frameCount
+    };
+}
+
 simulateBtn.addEventListener('click', function () {
+    const input = validateInputs();
+
+    if (!input) return;
 
     const referenceString = getReferenceString();
 
